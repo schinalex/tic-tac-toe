@@ -19,5 +19,19 @@
   "bugs": {
     "url": "https://github.com/schinalex/tic-tac-toe/issues"
   },
-  "homepage": "https://github.com/schinalex/tic-tac-toe#readme"
+  "homepage": "https://github.com/schinalex/tic-tac-toe#readme",
+  "dependencies": {
+    "vue": "^2.0.3"
+  },
+  "standard": {
+    "globals": [
+      "window",
+      "document",
+      "location",
+      "RegExp",
+      "dialogPolyfill",
+      "Vue",
+      "io"
+    ]
+  }
 }
