@@ -46,19 +46,13 @@ const app = new Vue({
       mark (x, y) {
         this.board[y].splice(x, 1, this.player)
         this.totalMoves += 1
-        if (this.totalMoves > 4) {
-          if (this.totalMoves === 9) {
-            this.over = false
-            this.message = `Draw!`
-          } else {
-            let playerWon = checkIfWon(this.player, this.board)
-            if (playerWon) {
-              this.over = true
-              this.message = `Player ${this.player} Won!`
-            } else {
-              this.switchPlayer()
-            }
-          }
+        let playerWon = checkIfWon(this.player, this.board)
+        if (playerWon) {
+          this.over = true
+          this.message = `Player ${this.player} Won!`
+        } else if (this.totalMoves === 9) {
+          this.over = false
+          this.message = `Draw!`
         } else {
           this.switchPlayer()
         }
