@@ -51,7 +51,7 @@ const app = new Vue({
           this.over = true
           this.message = `Player ${this.player} Won!`
         } else if (this.totalMoves === 9) {
-          this.over = false
+          this.over = true
           this.message = `Draw!`
         } else {
           this.switchPlayer()
