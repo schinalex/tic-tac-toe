@@ -27,17 +27,23 @@
     </header>
     <main id="game" class="mdl-layout__content">
       <div class="page-content column center">
+        <div class="info message">{{ game.message }}</div>
         <div class="mdl-layout-spacer"></div>
         <div class="grid">
           <div v-for="(row, y) in game.board" class="row">
-            <div v-for="(element, x) in row" v-on:click="if (!element) game.mark(x, y)" class="box">
-              <i v-if="element === 'x'" class="material-icons box x">clear</i>
-              <i v-if="element === 'o'" class="material-icons box o">radio_button_unchecked</i>
+            <div v-for="(element, x) in row" v-on:click="if (!element && !game.over) game.mark(x, y)" class="box">
+              <i v-if="element === 'x'" class="material-icons x">clear</i>
+              <i v-if="element === 'o'" class="material-icons o">radio_button_unchecked</i>
             </div>
           </div>
         </div>
-        <div class="row">
-          <span>Player: {{ game.player }}</span>
+        <div class="info row">
+          <div class="player center">
+            Player:
+            <i v-if="game.player === 'x'" class="material-icons">clear</i>
+            <i v-if="game.player === 'o'" class="material-icons">radio_button_unchecked</i>
+          </div>
+          <div class="mdl-layout-spacer"></div>
           <button v-on:click="game.resetBoard()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
             <i class="material-icons">replay</i>
             Play Again

@@ -1,20 +1,36 @@
 'use strict'
 
-const log2DArray = (matrix) => {
-  for (let row of matrix) {
-    console.log(row)
-  }
-}
 const get2DArray = (rows, columns, defaultElement) => {
   let matrix = []
-  for (let i = 0; i < rows; i++) {
+  for (let i = 0; i < rows; i += 1) {
     let row = []
-    for (let j = 0; j < columns; j++) {
+    for (let j = 0; j < columns; j += 1) {
       row.push(defaultElement)
     }
     matrix.push(row)
   }
   return matrix
+}
+const checkIfWon = (mark, matrix) => {
+  const board = matrix
+  let won = false
+  for (let i = 0; i < 3; i += 1) {
+    if (board[i][0] === mark && board[i][1] === mark && board[i][2] === mark) {
+      won = true
+    }
+  }
+  for (let i = 0; i < 3; i += 1) {
+    if (board[0][i] === mark && board[1][i] === mark && board[2][i] === mark) {
+      won = true
+    }
+  }
+  if (board[0][0] === mark && board[1][1] === mark && board[2][2] === mark) {
+    won = true
+  }
+  if (board[2][0] === mark && board[1][1] === mark && board[0][2] === mark) {
+    won = true
+  }
+  return won
 }
 
 const board = get2DArray(3, 3, 0)
@@ -24,19 +40,37 @@ const app = new Vue({
     game: {
       board,
       player: 'x',
+      totalMoves: 0,
+      over: false,
+      message: '',
       mark (x, y) {
         this.board[y].splice(x, 1, this.player)
-        console.log(`board[${y}][${x}] marked`)
-        log2DArray(this.board)
-        this.switchPlayer()
+        this.totalMoves += 1
+        if (this.totalMoves > 4) {
+          if (this.totalMoves === 9) {
+            this.over = false
+            this.message = `Draw!`
+          } else {
+            let playerWon = checkIfWon(this.player, this.board)
+            if (playerWon) {
+              this.over = true
+              this.message = `Player ${this.player} Won!`
+            } else {
+              this.switchPlayer()
+            }
+          }
+        } else {
+          this.switchPlayer()
+        }
       },
       switchPlayer () {
         this.player === 'x' ? this.player = 'o' : this.player = 'x'
       },
       resetBoard () {
         this.board = get2DArray(3, 3, 0)
-        console.log('board refreshed')
-        log2DArray(board)
+        this.over = false
+        this.totalMoves = 0
+        this.message = ''
       }
     }
   }
